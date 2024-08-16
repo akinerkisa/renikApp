@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerable Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>403 Forbidden Bypass Example</h1>
+    <nav>
+        <p>Try the access <a href='/403/secret'>/secret</a></p>
+        <a href="../">Back to the main menu</a>
+    </nav>
+</body>
+</html>

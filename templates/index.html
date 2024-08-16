@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerable Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to the renikApp Vulnerable Web App!</h1>
+    <nav>
+        <ul>
+            <li><a href="/403">403 Forbidden Bypass Example</a></li>
+            <li><a href="/ssti">SSTI Examples</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

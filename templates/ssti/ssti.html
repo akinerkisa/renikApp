@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerable Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>SSTI Examples</h1>
+    <nav>
+        <ul>
+            <li><a href="/vulnerable-ssti">SSTI Vulnerable Page</a></li>
+            <li><a href="/safe-ssti">Safe SSTI Page</a></li>
+            <li><a href="/template-engine">Template Engine Example</a></li>
+            <a href="../">Back to the main menu</a>
+        </ul>
+    </nav>
+</body>
+</html>

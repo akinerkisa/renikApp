@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe SSTI Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Safe SSTI Form</h2>
+    <form method="POST">
+        <input type="text" name="name">
+        <input type="submit" value="Submit">
+    </form>
+    {% if name %}
+    <h3>Hello, {{ name }}!</h3>
+    {% endif %}
+    <a href="../ssti">Back to the SSTI Examples</a>
+    <p>
+    <a href="../">Back to the main menu</a>
+</body>
+</html>
