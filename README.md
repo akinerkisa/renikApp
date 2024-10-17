@@ -12,6 +12,8 @@ renikApp is vulnerable web application for demonstrate some python web applicati
 ## Features
 <li>SSTI demonstration and vulnerable page.</li>
 <li>403 Forbidden bypass demonstration and vulnerable page.</li>
+<li>Login bypass safe and vulnerable page.</li>
+
 
 
  
