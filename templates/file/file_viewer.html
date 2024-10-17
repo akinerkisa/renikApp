@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Traversal / File Inclusion Examples</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Path Traversal / File Inclusion Examples</h1>
+    <nav>
+        <ul>
+            <li><a href="/file/vulnerable?file=default.txt">Vulnerable File Viewer</a></li>
+            <li><a href="/file/semi-secure?file=default.txt">Semi-Secure File Viewer</a></li>
+            <li><a href="/file/secure?file=default.txt">Secure File Viewer</a></li>
+        </ul>
+    </nav>
+    <a href="/">Back to Main Menu</a>
+</body>
+</html>
