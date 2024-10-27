@@ -65,17 +65,26 @@ def vulnerable_ssti():
       <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
-      <h2>Vulnerable SSTI Form</h2>
-      <form method="POST">
-          <input type="text" name="name">
-          <input type="submit" value="Submit">
-      </form>
-      {% if name %}
-      <h3>Hello, ''' + name + '''!</h3>
-      {% endif %}
-      <a href="../ssti">Back to the SSTI Examples</a>
-      <p>
-      <a href="../">Back to the main menu</a>
+      <div class="container">
+          <h2 class="text-center">Vulnerable SSTI Form</h2>
+          <div class="card">
+              <form method="POST">
+                  <div class="form-group">
+                      <input type="text" name="name" placeholder="Enter your name">
+                  </div>
+                  <input type="submit" value="Submit">
+              </form>
+              {% if name %}
+              <div class="message warning mt-4">
+                  <h3>Hello, ''' + name + '''!</h3>
+              </div>
+              {% endif %}
+          </div>
+          <div class="flex gap-4 mt-4">
+              <a href="../ssti" class="card">Back to the SSTI Examples</a>
+              <a href="../" class="card">Back to the main menu</a>
+          </div>
+      </div>
   </body>
   </html>
   '''
@@ -93,7 +102,7 @@ def template_engine():
   name = "Akiner"
   return render_template('ssti/template_engine.html', name=name)
 
-# LP section
+# Login bypass section
 @app.route('/lp')
 def lp():
   return render_template('lp/lp.html')
@@ -178,13 +187,13 @@ def rate_limit_login():
 # File Inclusion / Path Traversal section
 @app.route('/file')
 def file_viewer():
-  return render_template('file/file_viewer.html')
-
+  return render_template('file/file.html')
+# Vulnerable file viewer example
 @app.route('/file/vulnerable')
 def vulnerable_file_viewer():
   filename = request.args.get('file', 'default.txt')
   filepath = os.path.join('files', filename)
-  
+
   try:
       with open(filepath, 'r') as f:
           content = f.read()
@@ -192,6 +201,7 @@ def vulnerable_file_viewer():
   except IOError:
       return "File not found", 404
 
+# Semi-secure file viewer example
 @app.route('/file/semi-secure')
 def semi_secure_file_viewer():
   filename = request.args.get('file', 'default.txt')
@@ -235,11 +245,11 @@ def get_file():
   else:
       abort(404)
 
-# Double encoding örneği
+# Double encoding path traversal example
 @app.route('/file/double-encoding')
 def double_encoding_file_viewer():
   filename = request.args.get('file', 'default.txt')
-  # Basit bir filtreleme
+  # Filtering
   filename = filename.replace('../', '')
   filepath = os.path.join('files', filename)
   

@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure File Viewer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Secure File Viewer</h1>
-    <h2>File: {{ filename }}</h2>
-    <pre>{{ content }}</pre>
-    <a href="/file">Back to File Viewer Examples</a>
+    <div class="container">
+        <h1>Secure File Viewer</h1>
+        <div class="card">
+            <h3>File: {{ filename }}</h3>
+            <pre>{{ content }}</pre>
+        </div>
+        <a href="/file" class="mt-4 card">Back to File Viewer Examples</a>
+    </div>
 </body>
 </html>

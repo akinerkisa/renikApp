@@ -4,13 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Inclusion and Path Traversal Examples</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>File Inclusion and Path Traversal Examples</h1>
-    <nav>
-        <ul>
-            <li><a href="/file">File Viewer Examples</a></li>
-        </ul>
-    </nav>
+    <div class="container">
+        <h1 class="text-center">File Inclusion and Path Traversal Examples</h1>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/file/vulnerable?file=default.txt" class="card">
+                        <h3>Vulnerable File Viewer</h3>
+                        <p>Test file inclusion and path traversal vulnerabilities</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains intentional file system vulnerabilities</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/file/semi-secure?file=default.txt" class="card">
+                        <h3>Semi-Secure File Viewer</h3>
+                        <p>Partially protected against file inclusion attacks</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains partial security controls</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/file/secure?file=default.txt" class="card">
+                        <h3>Secure File Viewer</h3>
+                        <p>Fully protected implementation with proper controls</p>
+                        <div class="success mt-4">
+                            <small>✓ Implements complete security measures</small>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="flex gap-4 mt-4">
+            <a href="/" class="card">
+                <span class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Main Menu
+                </span>
+            </a>
+        </div>
+    </div>
 </body>
 </html>

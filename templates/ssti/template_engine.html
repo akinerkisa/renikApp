@@ -7,9 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Hello, {{ name }}!</h1>
-    <a href="../ssti">Back to the SSTI Examples</a>
-    <p>
-    <a href="../">Back to the main menu</a>
+    <div class="container">
+        <h1 class="text-center">Template Engine Example</h1>
+        <div class="card">
+            <h3>Hello, {{ name }}!</h3>
+        </div>
+        <div class="flex gap-4 mt-4">
+            <a href="../ssti" class="card">Back to the SSTI Examples</a>
+            <a href="../" class="card">Back to the main menu</a>
+        </div>
+    </div>
 </body>
 </html>

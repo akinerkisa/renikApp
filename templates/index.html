@@ -7,14 +7,54 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Welcome to the renikApp Vulnerable Web App!</h1>
-    <nav>
-        <ul>
-            <li><a href="/403">403 Forbidden Bypass Example</a></li>
-            <li><a href="/ssti">SSTI Examples</a></li>
-            <li><a href="/lp">Login Bypass</a></li>
-            <li><a href="/file">Path Traversal / File Inclusion</a></li>
-        </ul>
-    </nav>
+    <div class="container">
+        <h1 class="text-center">Welcome to the renikApp Vulnerable Web App!</h1>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/403" class="card">
+                        <h3>403 Forbidden Bypass Example</h3>
+                        <p>Test and learn about forbidden access bypass techniques</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains intentional access control vulnerabilities</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/ssti" class="card">
+                        <h3>SSTI Examples</h3>
+                        <p>Server-Side Template Injection vulnerability examples</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains template injection vulnerabilities</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp" class="card">
+                        <h3>Login Bypass</h3>
+                        <p>Various authentication bypass scenarios</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains authentication vulnerabilities</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/file" class="card">
+                        <h3>Path Traversal / File Inclusion</h3>
+                        <p>File system vulnerability examples and preventions</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains file system vulnerabilities</small>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="card mt-4">
+            <div class="warning mt-4">
+                <small>⚠️ Warning: Do not deploy this application in a production environment!</small>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

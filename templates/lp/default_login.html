@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Default Credentials Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>Login Using Default Credentials</h2>
-    <form method="POST">
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Login">
-    </form>
+    <div class="container">
+        <h2 class="text-center">Default Credentials Login</h2>
+        <form method="POST" class="card">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password">
+            </div>
+            <input type="submit" value="Login">
+        </form>
+        <a href="/lp" class="mt-4 card">Back to Login Examples</a>
+    </div>
 </body>
 </html>

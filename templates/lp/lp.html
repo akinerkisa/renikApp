@@ -7,15 +7,59 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Login Bypass Pages</h2>
-    <nav>
-        <ul>
-            <li><a href="/lp/insecure-login">Insecure Login Bypass</a></li>
-            <li><a href="/lp/secure-login">Secure Login Example</a></li>
-            <li><a href="/lp/default-login">Default Credentials Example</a></li>
-            <li><a href="/lp/rate-limit-login">Rate Limit Login Example</a></li>
-            <a href="../">Back to the main menu</a>
-        </ul>
-    </nav>
+    <div class="container">
+        <h1 class="text-center">Login Bypass Pages</h1>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/lp/insecure-login" class="card">
+                        <h3>Insecure Login Bypass</h3>
+                        <p>Test authentication bypass vulnerabilities</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains intentional authentication vulnerabilities</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp/secure-login" class="card">
+                        <h3>Secure Login Example</h3>
+                        <p>Example of proper authentication implementation</p>
+                        <div class="success mt-4">
+                            <small>✓ Implements security best practices</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp/default-login" class="card">
+                        <h3>Default Credentials Example</h3>
+                        <p>Test default credential vulnerabilities</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains default credential risks</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp/rate-limit-login" class="card">
+                        <h3>Rate Limit Login Example</h3>
+                        <p>Test brute force protection mechanisms</p>
+                        <div class="success mt-4">
+                            <small>✓ Implements rate limiting protection</small>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="flex gap-4 mt-4">
+            <a href="../" class="card">
+                <span class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to the main menu
+                </span>
+            </a>
+        </div>
+    </div>
 </body>
 </html>

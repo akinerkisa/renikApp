@@ -7,16 +7,25 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>Safe SSTI Form</h2>
-    <form method="POST">
-        <input type="text" name="name">
-        <input type="submit" value="Submit">
-    </form>
-    {% if name %}
-    <h3>Hello, {{ name }}!</h3>
-    {% endif %}
-    <a href="../ssti">Back to the SSTI Examples</a>
-    <p>
-    <a href="../">Back to the main menu</a>
+    <div class="container">
+        <h2 class="text-center">Safe SSTI Form</h2>
+        <div class="card">
+            <form method="POST">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Enter your name">
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+            {% if name %}
+            <div class="message success mt-4">
+                <h3>Hello, {{ name }}!</h3>
+            </div>
+            {% endif %}
+        </div>
+        <div class="flex gap-4 mt-4">
+            <a href="../ssti" class="card">Back to the SSTI Examples</a>
+            <a href="../" class="card">Back to the main menu</a>
+        </div>
+    </div>
 </body>
 </html>
