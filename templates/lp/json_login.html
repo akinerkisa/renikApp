@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">JSON Login</h2>
+        <form method="POST" action="/lp/json-login" class="card" id="jsonLoginForm">
+            <div class="form-group">
+                <input type="text" name="username" id="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" id="password" placeholder="Password">
+            </div>
+            <input type="submit" value="Login">
+        </form>
+        <div class="card mt-4">
+            <p><small>This form submits data to JSON API endpoint. HTLogin can test JSON API endpoints when forms are not found.</small></p>
+        </div>
+        <a href="/lp" class="mt-4 card">Back to Login Examples</a>
+    </div>
+    <script>
+        // Convert form submission to JSON (for browser)
+        // But allow normal form submission for HTLogin testing
+        document.getElementById('jsonLoginForm').addEventListener('submit', function(e) {
+            // Only intercept if it's a browser submission (not HTLogin)
+            // HTLogin will submit as normal form data
+            if (e.submitter && e.submitter.type === 'submit') {
+                e.preventDefault();
+                const formData = {
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value
+                };
+                
+                fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Login successful! Token: ' + data.token);
+                        window.location.href = '/lp/dashboard';
+                    } else {
+                        alert('Login failed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    // If JSON fails, try normal form submission
+                    this.submit();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

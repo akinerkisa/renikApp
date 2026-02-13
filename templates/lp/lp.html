@@ -47,8 +47,90 @@
                         </div>
                     </a>
                 </li>
+                <li>
+                    <a href="/lp/nosql-login" class="card">
+                        <h3>NoSQL Injection Login</h3>
+                        <p>Test NoSQL injection bypass vulnerabilities</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains NoSQL injection vulnerabilities</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp/username-enum-login" class="card">
+                        <h3>Username Enumeration Login</h3>
+                        <p>Test username enumeration vulnerabilities</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Reveals if username exists</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp/captcha-login" class="card">
+                        <h3>CAPTCHA Protected Login</h3>
+                        <p>Test CAPTCHA detection and bypass</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains CAPTCHA (simple bypass possible)</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp/xpath-login" class="card">
+                        <h3>XPath Injection Login</h3>
+                        <p>Test XPath injection bypass vulnerabilities</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains XPath injection vulnerabilities</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp/ldap-login" class="card">
+                        <h3>LDAP Injection Login</h3>
+                        <p>Test LDAP injection bypass vulnerabilities</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Contains LDAP injection vulnerabilities</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp/test-account-login" class="card">
+                        <h3>Test Account Login</h3>
+                        <p>Test baseline login analysis with test accounts</p>
+                        <div class="success mt-4">
+                            <small>✓ Supports baseline analysis for improved confidence scoring</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp/csrf-login" class="card">
+                        <h3>CSRF Protected Login</h3>
+                        <p>Test CSRF token detection and handling</p>
+                        <div class="success mt-4">
+                            <small>✓ HTLogin automatically detects and handles CSRF tokens</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lp/json-login" class="card">
+                        <h3>JSON Login</h3>
+                        <p>Test JSON API endpoint login</p>
+                        <div class="warning mt-4">
+                            <small>⚠️ Uses JSON API endpoint for authentication</small>
+                        </div>
+                    </a>
+                </li>
             </ul>
         </nav>
+        
+        <div class="card mt-4">
+            <h3>API Endpoint Testing</h3>
+            <p>HTLogin can also test JSON API and GraphQL endpoints when forms are not found.</p>
+            <ul>
+                <li><strong>JSON API:</strong> <code>POST /api/login</code> (<a href="/lp/json-login">View JSON Login page</a>)</li>
+                <li><strong>GraphQL:</strong> <code>POST /api/graphql</code> (<a href="/lp/graphql-login">View GraphQL page</a>)</li>
+            </ul>
+            <p><small>Try: <code>curl -X POST http://127.0.0.1:5000/api/login -H "Content-Type: application/json" -d '{"username":"admin","password":"admin"}'</code></small></p>
+        </div>
 
         <div class="flex gap-4 mt-4">
             <a href="../" class="card">

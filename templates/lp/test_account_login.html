@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Account Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Test Account Login</h2>
+        <p class="text-center">This page supports baseline login testing with test accounts.</p>
+        <form method="POST" class="card">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password">
+            </div>
+            <input type="submit" value="Login">
+        </form>
+        <div class="card mt-4">
+            <p><strong>Test Account:</strong> testuser:testpass123</p>
+            <p><small>HTLogin can use this account for baseline analysis to improve confidence scoring.</small></p>
+        </div>
+        <a href="/lp" class="mt-4 card">Back to Login Examples</a>
+    </div>
+</body>
+</html>

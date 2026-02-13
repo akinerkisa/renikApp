@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphQL Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">GraphQL Login API</h2>
+        <div class="card">
+            <p>This is a GraphQL endpoint for login testing.</p>
+            <p><strong>Endpoint:</strong> <code>POST /api/graphql</code></p>
+            <p><strong>Example Mutation:</strong></p>
+            <pre style="background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto;">
+mutation {
+  login(username: "admin", password: "admin") {
+    token
+    user {
+      id
+      username
+    }
+  }
+}</pre>
+        </div>
+        <a href="/lp" class="mt-4 card">Back to Login Examples</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPTCHA Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">CAPTCHA Protected Login</h2>
+        <form method="POST" class="card">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label>CAPTCHA: What is 2+2?</label>
+                <input type="text" name="captcha" placeholder="CAPTCHA Answer">
+            </div>
+            <input type="submit" value="Login">
+        </form>
+        <a href="/lp" class="mt-4 card">Back to Login Examples</a>
+    </div>
+</body>
+</html>
