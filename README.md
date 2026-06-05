@@ -1,5 +1,5 @@
 ## renikApp
-renikApp is a vulnerable web application designed to demonstrate Python web application vulnerabilities. It contains code examples and test scenarios for security testing tools like HTLogin, NoMoreForbidden., and also contains code examples in the articles I write (<a href="https://akiner.medium.com/">link(TR) and contains the applications I use in my presentations.</a>).
+renikApp is a vulnerable web application designed to demonstrate Python web application vulnerabilities. It contains code examples and test scenarios for security testing tools like HTLogin, NoMoreForbidden., and also contains code examples in the articles I write (<a href="https://akiner.medium.com/">link(TR)</a>) and contains the applications I use in my presentations.
 
 ## Installation
 ```bash
@@ -122,5 +122,3 @@ Rate limit protection is implemented on `/lp/rate-limit-login`:
 ## Security Note
 ⚠️ **This application contains intentional vulnerabilities for educational and testing purposes only. Do not deploy in production environments.**
 
-## Image
-![Image.](https://github.com/akinerkisa/renikApp/blob/main/rnkapp.png)
