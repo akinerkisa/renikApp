@@ -3,58 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vulnerable Web App</title>
+    <title>renikApp v3.0 — Vulnerable Lab</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .hero {
+            text-align: center;
+            padding: 2rem 0 2.5rem;
+        }
+        .hero h1 { font-size: 2.5rem; color: var(--text); margin-bottom: 0.5rem; }
+        .hero .version {
+            display: inline-block;
+            background: #eff6ff;
+            color: var(--primary);
+            border: 1px solid #bfdbfe;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            padding: 0.2em 0.8em;
+            margin-bottom: 0.6rem;
+        }
+        .hero p { font-size: 0.95rem; color: var(--text-muted); }
+
+        .module-grid-3 {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .module-grid-2 {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        a.mod-card {
+            display: flex;
+            flex-direction: column;
+            padding: 1.2rem 1.4rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+            transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+            min-height: 148px;
+        }
+        a.mod-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+            border-color: #bfdbfe;
+        }
+        a.mod-card h3 { font-size: 0.95rem; margin-bottom: 0.35rem; color: var(--primary); }
+        a.mod-card p  { flex: 1; font-size: 0.83rem; margin-bottom: 0.6rem; }
+
+        /* Simulation cards get a subtle left accent */
+        a.mod-card.sim {
+            border-left: 3px solid var(--primary);
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.15em 0.55em;
+            border-radius: 4px;
+            margin-top: auto;
+        }
+        .tag-warn { background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning-border); }
+        .tag-ok   { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-border); }
+        .tag-sim  { background: #eff6ff; color: var(--primary); border: 1px solid #bfdbfe; }
+
+        .footer-note {
+            margin-top: 2.5rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            color: var(--warning);
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            .module-grid-3, .module-grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center">Welcome to the renikApp Vulnerable Web App!</h1>
-        <nav>
-            <ul>
-                <li>
-                    <a href="/403" class="card">
-                        <h3>403 Forbidden Bypass Example</h3>
-                        <p>Test and learn about forbidden access bypass techniques</p>
-                        <div class="warning mt-4">
-                            <small>⚠️ Contains intentional access control vulnerabilities</small>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="/ssti" class="card">
-                        <h3>SSTI Examples</h3>
-                        <p>Server-Side Template Injection vulnerability examples</p>
-                        <div class="warning mt-4">
-                            <small>⚠️ Contains template injection vulnerabilities</small>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="/lp" class="card">
-                        <h3>Login Bypass</h3>
-                        <p>Various authentication bypass scenarios</p>
-                        <div class="warning mt-4">
-                            <small>⚠️ Contains authentication vulnerabilities</small>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="/file" class="card">
-                        <h3>Path Traversal / File Inclusion</h3>
-                        <p>File system vulnerability examples and preventions</p>
-                        <div class="warning mt-4">
-                            <small>⚠️ Contains file system vulnerabilities</small>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+<div class="container">
 
-        <div class="card mt-4">
-            <div class="warning mt-4">
-                <small>⚠️ Warning: Do not deploy this application in a production environment!</small>
-            </div>
+    <div class="hero">
+        <span class="version">v3.0</span>
+        <h1>renikApp</h1>
+        <p>Vulnerable Web Application Lab — Educational &amp; Authorized Security Research Only</p>
+    </div>
+
+    <!-- Web Vulnerabilities -->
+    <div class="module-section">
+        <div class="section-label">Web Vulnerabilities</div>
+        <div class="module-grid-3">
+            <a href="/403" class="mod-card">
+                <h3>403 Bypass</h3>
+                <p>Header-based forbidden access bypass techniques</p>
+                <span class="tag tag-warn">⚠ Access control</span>
+            </a>
+            <a href="/ssti" class="mod-card">
+                <h3>SSTI</h3>
+                <p>Server-Side Template Injection — vulnerable &amp; safe examples</p>
+                <span class="tag tag-warn">⚠ Template injection</span>
+            </a>
+            <a href="/lp" class="mod-card">
+                <h3>Login Bypass</h3>
+                <p>SQL injection, NoSQL, LDAP, XPath, CSRF, enumeration and more</p>
+                <span class="tag tag-warn">⚠ Authentication</span>
+            </a>
+            <a href="/file" class="mod-card">
+                <h3>Path Traversal</h3>
+                <p>File inclusion and directory traversal — three protection levels</p>
+                <span class="tag tag-warn">⚠ File system</span>
+            </a>
+            <a href="/ssrf" class="mod-card">
+                <h3>SSRF</h3>
+                <p>OOB callbacks, internal IP, cloud metadata, whitelist bypass matrix</p>
+                <span class="tag tag-warn">⚠ Server-Side Request Forgery</span>
+            </a>
         </div>
     </div>
+
+    <!-- Simulation Environments -->
+    <div class="module-section">
+        <div class="section-label">Simulation Environments</div>
+        <div class="module-grid-2">
+            <a href="/ics" class="mod-card sim">
+                <h3>ICS / SCADA</h3>
+                <p>Industrial control system simulation — pressure control dashboard, SIEM log feed, and malware behavior triggers</p>
+                <span class="tag tag-sim">⚙ OT/ICS lab</span>
+            </a>
+            <a href="/airgap" class="mod-card sim">
+                <h3>Air-Gap Simulation</h3>
+                <p>Stuxnet-style attack chain — USB/HID vector, HMI vs sensor discrepancy, PLC manipulation and incident response</p>
+                <span class="tag tag-sim">⚙ Air-gap / OT attack</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        ⚠ Do not deploy in production. For authorized security research and education only.
+    </div>
+
+</div>
 </body>
 </html>

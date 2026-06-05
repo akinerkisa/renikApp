@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICS/SCADA Module — renikApp v3.0</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #0e1a2b;
+            --surface: rgba(255,255,255,0.07);
+            --border: rgba(255,255,255,0.12);
+            --teal: #4ecdc4;
+            --radius: 12px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
+
+        .topbar {
+            background: rgba(255,255,255,0.04);
+            border-bottom: 1px solid var(--border);
+            padding: 0.7rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.5);
+        }
+        .topbar a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+        .topbar a:hover { color: var(--teal); }
+        .topbar .sep { opacity: 0.4; }
+        .topbar .current { color: rgba(255,255,255,0.85); }
+
+        .container { max-width: 860px; margin: 0 auto; padding: 3rem 2rem; }
+
+        h1 { font-size: 1.9rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .note { font-size: 0.82rem; opacity: 0.55; margin-bottom: 2rem; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        .mod-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .mod-card:hover { background: rgba(255,255,255,0.1); border-color: var(--teal); }
+        .mod-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: #fff; }
+        .mod-card p  { font-size: 0.85rem; opacity: 0.7; flex: 1; margin-bottom: 1.25rem; line-height: 1.5; }
+        .mod-card a.btn {
+            display: inline-block;
+            padding: 0.55rem 1.25rem;
+            background: var(--teal);
+            color: #0e1a2b;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-decoration: none;
+            width: fit-content;
+            transition: opacity 0.2s;
+        }
+        .mod-card a.btn:hover { opacity: 0.85; }
+
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="topbar">
+        <a href="/">renikApp v3.0</a>
+        <span class="sep">/</span>
+        <span class="current">ICS / SCADA</span>
+    </div>
+
+    <div class="container">
+        <h1>ICS / SCADA Module</h1>
+        <p class="note">Lab-only — not connected to real systems. For educational purposes only.</p>
+
+        <div class="grid">
+            <div class="mod-card">
+                <h2>Pressure Control Dashboard</h2>
+                <p>Change the setpoint, monitor the trend chart and alarm system. Includes a SIEM log simulation feed.</p>
+                <a class="btn" href="/ics/pressure">Open</a>
+            </div>
+            <div class="mod-card">
+                <h2>Malware Behavior Simulation</h2>
+                <p>Inspect event rate, audit feed, and alarm list. Trigger simulations with an authorization token.</p>
+                <a class="btn" href="/ics/malware">Open</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

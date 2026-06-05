@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSRF Module — renikApp v3.0</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+
+    <h2>SSRF Test Scenarios</h2>
+    <p style="margin-bottom:1.5rem;">Endpoints simulate SSRF evidence and OOB callbacks. Designed for use with <strong>SSRForcer</strong>.</p>
+
+    <div class="card mt-4">
+        <h3>Query-based</h3>
+        <ul class="endpoint-list" style="margin-top:0.75rem;">
+            <li class="endpoint-item">
+                <a href="/ssrf/query/oob?url=test">OOB confirm</a>
+                <span class="ep-desc">Triggers OOB callback — <code>?url=</code></span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/oob_async?url=test&delay_ms=250">OOB async</a>
+                <span class="ep-desc">Delayed OOB callback — <code>?url=</code> <code>&amp;delay_ms=</code></span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/internal?dest=127.0.0.1">Internal IP indicator</a>
+                <span class="ep-desc">Returns evidence when internal address detected — <code>?dest=</code></span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/cloud?data=169.254.169.254">Cloud metadata indicator</a>
+                <span class="ep-desc">Responds to 169.254.169.254 / metadata patterns — <code>?data=</code></span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/whitelist?url=https://example.com">Whitelist + bypass</a>
+                <span class="ep-desc">Blocks by default; accepts <code>%2523@</code> / <code>@%23</code> bypass</span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/whitelist_safe?url=https://example.com">Whitelist safe</a>
+                <span class="ep-desc">Always blocks — false positive reduction test</span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/whitelist_bypass_matrix?url=https://example.com">Whitelist bypass matrix</a>
+                <span class="ep-desc">Fragment, userinfo and percent-encoded bypass patterns</span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/bypass_matrix?url=http://127.0.0.1">Encoding/numeric bypass matrix</a>
+                <span class="ep-desc">Octal, hex, decimal, IPv6-mapped IP representations</span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/safe_no_evidence?url=test">safe_no_evidence</a>
+                <span class="ep-desc">Always returns <code>ok</code> — expects 0 findings</span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/error_safe?url=test">error_safe</a>
+                <span class="ep-desc">500 without connection evidence — false positive test</span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/error_internal?url=test">error_internal</a>
+                <span class="ep-desc">500 with internal IP in body — SSRF indicator</span>
+            </li>
+            <li class="endpoint-item">
+                <a href="/ssrf/query/header_internal">header_internal</a>
+                <span class="ep-desc">Header-injected SSRF — <code>X-Forwarded-Host</code>, <code>X-Original-URL</code>, <code>Referer</code></span>
+            </li>
+        </ul>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem;">
+        <div class="card">
+            <h3>Form-based</h3>
+            <ul class="endpoint-list" style="margin-top:0.75rem;">
+                <li class="endpoint-item">
+                    <a href="/ssrf/form_template">Form template</a>
+                    <span class="ep-desc">POST form with <code>url</code> field</span>
+                </li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>JSON-based</h3>
+            <ul class="endpoint-list" style="margin-top:0.75rem;">
+                <li class="endpoint-item">
+                    <a href="/ssrf/json_template">JSON template</a>
+                    <span class="ep-desc">Recursive nested JSON POST scan</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <a href="/" class="card mt-4">← Back to main menu</a>
+
+</div>
+</body>
+</html>

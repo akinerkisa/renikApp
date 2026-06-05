@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICS/SCADA Demo Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .warning-banner {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel h2 {
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .status-panel {
+            grid-column: 1 / -1;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .status-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .status-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .status-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .alarm {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24) !important;
+            animation: pulse 1s infinite;
+        }
+
+        .setpoint-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .setpoint-input {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            width: 120px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 15px;
+        }
+
+        .events-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .event-item {
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .event-item.alarm {
+            border-left-color: #ff6b6b;
+        }
+
+        .event-item.setpoint {
+            border-left-color: #feca57;
+        }
+
+        .event-time {
+            font-size: 0.8em;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+
+        .event-message {
+            font-weight: bold;
+        }
+
+        .siem-panel {
+            grid-column: 1 / -1;
+        }
+
+        .siem-log {
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .siem-log.medium {
+            border-left-color: #feca57;
+        }
+
+        .log-timestamp {
+            color: #4ecdc4;
+        }
+
+        .log-rule {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .log-data {
+            color: #feca57;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<style>
+.topbar{background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.1);padding:.65rem 1.5rem;display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:rgba(255,255,255,.45)}
+.topbar a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}.topbar a:hover{color:#4ecdc4}
+.topbar .sep{opacity:.35}.topbar .cur{color:rgba(255,255,255,.8)}
+</style>
+<body>
+    <div class="topbar">
+        <a href="/">renikApp v3.0</a><span class="sep">/</span>
+        <a href="/ics">ICS / SCADA</a><span class="sep">/</span>
+        <span class="cur">Pressure Dashboard</span>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>🏭 ICS/SCADA Demo Dashboard</h1>
+            <p>Pressure Control System Simulation — Lab Only</p>
+        </div>
+
+        <div class="warning-banner" id="alarmBanner" style="display: none;">
+            🚨 ALARM: Pressure threshold exceeded! 🚨
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Sistem Durumu -->
+            <div class="panel status-panel">
+                <h2>📊 System Status</h2>
+                <div class="status-grid">
+                    <div class="status-item" id="currentPressure">
+                        <div class="status-value" id="currentValue">50.0</div>
+                        <div class="status-label">Current Pressure (bar)</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value" id="setpointValue">50.0</div>
+                        <div class="status-label">Setpoint (bar)</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value" id="alarmThreshold">80.0</div>
+                        <div class="status-label">Alarm Threshold (bar)</div>
+                    </div>
+                    <div class="status-item" id="alarmStatus">
+                        <div class="status-value" id="alarmActive">NORMAL</div>
+                        <div class="status-label">Alarm Status</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Setpoint Kontrolü -->
+            <div class="panel">
+                <h2>🎛️ Setpoint Control</h2>
+                <p>Change the pressure setpoint for demo purposes:</p>
+                <div class="setpoint-control">
+                    <input type="number" id="setpointInput" class="setpoint-input" 
+                           min="0" max="100" step="0.1" value="50">
+                    <button onclick="updateSetpoint()" class="btn btn-primary">
+                        Update Setpoint
+                    </button>
+                </div>
+                <div id="setpointMessage" style="margin-top: 10px; font-size: 0.9em;"></div>
+            </div>
+
+            <!-- Zaman Serisi Grafiği -->
+            <div class="panel">
+                <h2>📈 Pressure Trend</h2>
+                <div class="chart-container">
+                    <canvas id="pressureChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Event Logları -->
+            <div class="panel">
+                <h2>📋 Last 10 Events</h2>
+                <div class="events-list" id="eventsList">
+                    <div class="event-item">
+                        <div class="event-time">System starting...</div>
+                        <div class="event-message">Loading event logs...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIEM Logları -->
+            <div class="panel siem-panel">
+                <h2>🔍 SIEM Logs (Demo)</h2>
+                <p style="margin-bottom: 15px; opacity: 0.8;">
+                    These logs simulate how events would appear in a real SIEM system
+                </p>
+                <div id="siemLogs">
+                    <div class="siem-log">
+                        <span class="log-timestamp">[2024-01-15 10:30:15]</span>
+                        <span class="log-rule">[RULE: setpoint_modification]</span>
+                        <span class="log-data">[SEVERITY: MEDIUM] Setpoint modification detected</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js konfigürasyonu
+        const ctx = document.getElementById('pressureChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Pressure (bar)',
+                    data: [],
+                    borderColor: '#4ecdc4',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 0,
+                        max: 100,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        },
+                        ticks: {
+                            color: '#fff'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        },
+                        ticks: {
+                            color: '#fff'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#fff'
+                        }
+                    }
+                }
+            }
+        });
+
+        // API fonksiyonları
+        async function fetchStatus() {
+            try {
+                const response = await fetch('/ics/api/status');
+                const data = await response.json();
+                updateStatus(data);
+            } catch (error) {
+                console.error('Status fetch error:', error);
+            }
+        }
+
+        async function fetchEvents() {
+            try {
+                const response = await fetch('/ics/api/logs');
+                const data = await response.json();
+                updateEvents(data);
+            } catch (error) {
+                console.error('Events fetch error:', error);
+            }
+        }
+
+        async function fetchSIEMLogs() {
+            try {
+                const response = await fetch('/ics/api/siem');
+                const data = await response.json();
+                updateSIEMLogs(data);
+            } catch (error) {
+                console.error('SIEM logs fetch error:', error);
+            }
+        }
+
+        async function fetchHistory() {
+            try {
+                const response = await fetch('/ics/api/history');
+                const data = await response.json();
+                updateChart(data);
+            } catch (error) {
+                console.error('History fetch error:', error);
+            }
+        }
+
+        async function updateSetpoint() {
+            const setpoint = document.getElementById('setpointInput').value;
+            const messageDiv = document.getElementById('setpointMessage');
+            
+            try {
+                const response = await fetch('/ics/api/setpoint', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ setpoint: parseFloat(setpoint) })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    messageDiv.innerHTML = `✅ Setpoint successfully updated to ${setpoint} bar`;
+                    messageDiv.style.color = '#4ecdc4';
+                } else {
+                    messageDiv.innerHTML = `❌ Error: ${data.error}`;
+                    messageDiv.style.color = '#ff6b6b';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = `❌ Connection error: ${error.message}`;
+                messageDiv.style.color = '#ff6b6b';
+            }
+        }
+
+        function updateStatus(data) {
+            document.getElementById('currentValue').textContent = data.current_value;
+            document.getElementById('setpointValue').textContent = data.setpoint;
+            document.getElementById('alarmThreshold').textContent = data.alarm_threshold;
+            
+            const alarmStatus = document.getElementById('alarmActive');
+            const alarmBanner = document.getElementById('alarmBanner');
+            const currentPressure = document.getElementById('currentPressure');
+            const alarmStatusDiv = document.getElementById('alarmStatus');
+            
+            if (data.alarm_active) {
+                alarmStatus.textContent = 'ALARM';
+                alarmBanner.style.display = 'block';
+                currentPressure.classList.add('alarm');
+                alarmStatusDiv.classList.add('alarm');
+            } else {
+                alarmStatus.textContent = 'NORMAL';
+                alarmBanner.style.display = 'none';
+                currentPressure.classList.remove('alarm');
+                alarmStatusDiv.classList.remove('alarm');
+            }
+        }
+
+        function updateEvents(events) {
+            const eventsList = document.getElementById('eventsList');
+            eventsList.innerHTML = '';
+            
+            events.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = `event-item ${event.type.toLowerCase()}`;
+                
+                const time = new Date(event.timestamp).toLocaleTimeString('en-US');
+                eventDiv.innerHTML = `
+                    <div class="event-time">${time}</div>
+                    <div class="event-message">${event.message}</div>
+                `;
+                
+                eventsList.appendChild(eventDiv);
+            });
+        }
+
+        function updateSIEMLogs(logs) {
+            const siemLogs = document.getElementById('siemLogs');
+            siemLogs.innerHTML = '';
+            
+            logs.forEach(log => {
+                const logDiv = document.createElement('div');
+                logDiv.className = `siem-log ${log.severity.toLowerCase()}`;
+                
+                const time = new Date(log.timestamp).toLocaleString('en-US');
+                logDiv.innerHTML = `
+                    <span class="log-timestamp">[${time}]</span>
+                    <span class="log-rule">[RULE: ${log.rule}]</span>
+                    <span class="log-data">[SEVERITY: ${log.severity}] ${JSON.stringify(log.data)}</span>
+                `;
+                
+                siemLogs.appendChild(logDiv);
+            });
+        }
+
+        function updateChart(history) {
+            const labels = history.map(h => new Date(h.timestamp).toLocaleTimeString('en-US'));
+            const values = history.map(h => h.value);
+            
+            chart.data.labels = labels;
+            chart.data.datasets[0].data = values;
+            chart.update();
+        }
+
+        // Sayfa yüklendiğinde verileri çek
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchStatus();
+            fetchEvents();
+            fetchSIEMLogs();
+            fetchHistory();
+            
+            // Her 2 saniyede bir güncelle
+            setInterval(() => {
+                fetchStatus();
+                fetchEvents();
+                fetchSIEMLogs();
+            }, 2000);
+            
+            // Her 5 saniyede bir grafik güncelle
+            setInterval(fetchHistory, 5000);
+        });
+
+        // Enter tuşu ile setpoint güncelleme
+        document.getElementById('setpointInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                updateSetpoint();
+            }
+        });
+    </script>
+</body>
+</html>
+
